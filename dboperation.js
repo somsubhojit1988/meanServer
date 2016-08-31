@@ -25,9 +25,10 @@ module.exports = {
             })
       },
     dbInsert :
-      function  (db,coll,doc,callback){
+      function  (db,coll,doc,update_doc,callback){
         var collection=db.collection(coll)
-        db.collection(coll).insertOne(doc
+        db.collection.update(doc
+          ,{$set:update_doc}          
           ,function (err,res) {
             assert.equal(err,null)
             callback(res)
@@ -35,8 +36,14 @@ module.exports = {
         )
       },
     dbUpdate :
-      function (db,query,doc){
+      function (db,coll,query,doc){
         console.log("UPDATE:")
+        var collection = db.collection(coll)
+        db.collection(coll).insertOne(doc
+          ,function (err,res) {
+            assert.equal(err,null)
+            callback(res)
+          })
       },
     dbDelete :
       function (db,query,doc) {
