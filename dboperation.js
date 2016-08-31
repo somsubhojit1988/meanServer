@@ -15,17 +15,19 @@ module.exports = {
           })
       },
     dbFind :
-      function (db,doc) {
-        console.log("RETREIVE:")
+      function (db,coll,doc,callback) {
+          console.log("RETREIVE:")
+          var result=[]
+          db.collection(coll).find(doc)
+            .toArray(function (err,data) {
+              assert.equal(null,err)
+              if(data!=null){callback(data)}
+            })
       },
     dbInsert :
       function  (db,coll,doc,callback){
         var collection=db.collection(coll)
-        db.collection(coll).insertOne(
-          {
-            "user" : "a@b.com",
-            "phone_num" : "`1234567890`"
-          }
+        db.collection(coll).insertOne(doc
           ,function (err,res) {
             assert.equal(err,null)
             callback(res)
@@ -33,12 +35,12 @@ module.exports = {
         )
       },
     dbUpdate :
-      function (db,query,doc) {
+      function (db,query,doc){
         console.log("UPDATE:")
       },
     dbDelete :
       function (db,query,doc) {
-              console.log("DELETE")
+        console.log("DELETE")
       }
 }
 var require = function(path){

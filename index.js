@@ -16,15 +16,12 @@ router.get('/'
   ,function (req,res) {
       res.json({"message":"Welcome to our API"})
   })
-router.get('/addMeToTheCommunity'
-
-
+router.put('/addMeToTheCommunity'
 /* request sent at the installation of FindMyBud to register in DB*/
-
   ,function (req,res){
       dbConnector.dbConnect(onDbConnected =
         function(db){
-            dbConnector.dbInsert(db,'testmeandata',{"user":"test.user@abc.com","phone_num":"1234567890"},
+            dbConnector.dbInsert(db,'testmeandata',{"user":"test.user_2@abc.com","phone_num":"9758976553"},
                onDocInserted=function(result) {
                 console.log("SERVER::inserted callback!!")
                 db.close()
@@ -33,12 +30,23 @@ router.get('/addMeToTheCommunity'
         }
       )
       res.json({"message":"Welcome to FSociety!"})
-})
+   })
 
+router.get('/getMeThisFucker'
+	,function(req,res){
+		dbConnector.dbConnect(onDbConnected =
+			function(db){
+				testdoc={"user":"test.user_2@abc.com"}
+				dbConnector.dbFind(db,'testmeandata',testdoc
+					,function onDocFound(dbres){
+            res.json(dbres)
+					} )
+			})
+	})
 
-router.get('/addMeToThisFuck'
+router.put('/addThisFuckToMe'
 
-  /*Friend request accepted nedd to add this one to the friends array*/
+  /*Friend request accepted need to add this one to the friends array*/
 
 
   ,function (req,res){
