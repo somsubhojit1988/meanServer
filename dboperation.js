@@ -16,7 +16,7 @@ module.exports = {
       },
     dbFind :
       function (db,coll,doc,callback) {
-          console.log("RETREIVE:")
+          console.log("RETREIVE from "+coll+" :")
           var result=[]
           db.collection(coll).find(doc)
             .toArray(function (err,data) {
@@ -25,29 +25,32 @@ module.exports = {
             })
       },
     dbInsert :
-      function  (db,coll,doc,update_doc,callback){
-        var collection=db.collection(coll)
-        db.collection.update(doc
-          ,{$set:update_doc}          
-          ,function (err,res) {
-            assert.equal(err,null)
-            callback(res)
-          }
-        )
-      },
-    dbUpdate :
-      function (db,coll,query,doc){
-        console.log("UPDATE:")
-        var collection = db.collection(coll)
+      function  (db,coll,doc,callback){
+        console.log("CREATE:")
+        // console.log(doc)
         db.collection(coll).insertOne(doc
           ,function (err,res) {
             assert.equal(err,null)
             callback(res)
           })
+      },      
+
+    dbUpdate ://with Upsert
+      function (db,coll,filter,doc,callback){
+        console.log("UPDATE:")
+        db.collection(coll).update(filter,doc
+          ,function (err,res) {
+            assert.equal(null,err)
+            callback(res)  
+          })
       },
     dbDelete :
-      function (db,query,doc) {
+      function (db,col,filter,doc) {
         console.log("DELETE")
+        db.collection.deleteOne(filter,function (err,res) {
+          assert.equal(null,err)
+
+        })
       }
 }
 var require = function(path){
